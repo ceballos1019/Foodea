@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/et_user_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="40dp"
+        android:onClick="onClick"
+        android:inputType="textEmailAddress"
+        android:imeOptions="actionNext"
+        android:hint="@string/username_register"/>
+
+
+    <EditText
+        android:id="@+id/et_email_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="40dp"
+        android:inputType="textEmailAddress"
+        android:onClick="onClick"
+        android:imeOptions="actionNext"
+        android:hint="@string/email_register"/>
+
+    <EditText
+        android:id="@+id/et_password_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="40dp"
+        android:inputType="textPassword"
+        android:onClick="onClick"
+        android:imeOptions="actionNext"
+        android:hint="@string/password_register"/>
+
+    <EditText
+        android:id="@+id/et_password_confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="40dp"
+        android:inputType="textPassword"
+        android:onClick="onClick"
+        android:imeOptions="actionDone"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/pass_confirmation"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_password_message"/>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:onClick="onClick"
+        android:text="@string/save" />
+
+</LinearLayout>

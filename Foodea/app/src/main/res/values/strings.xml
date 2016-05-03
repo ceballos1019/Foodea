@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Foodea</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Ingresar</string>
+    <string name="register">Registrarse</string>
+    <string name="username_register">Nombre de usuario</string>
+    <string name="email_register">Correo electrónico</string>
+    <string name="password_register">Contraseña</string>
+    <string name="pass_confirmation">Confirma tu contraseña</string>
+    <string name="save">Guardar</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
