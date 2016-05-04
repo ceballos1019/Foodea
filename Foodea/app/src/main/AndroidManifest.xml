@@ -20,9 +20,9 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".FoodActivity" />
-        <activity android:name=".DrinkActivity" />
-        <activity android:name=".PlaceActivity"></activity>
+        <activity android:name=".Foods.FoodActivity" />
+        <activity android:name=".Drinks.DrinkActivity" />
+        <activity android:name=".Places.PlaceActivity"></activity>
     </application>
 
 </manifest>

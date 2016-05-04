@@ -13,6 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import co.edu.udea.compumovil.proyectogr8.foodea.Drinks.DrinkActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.Foods.FoodActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceActivity;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
