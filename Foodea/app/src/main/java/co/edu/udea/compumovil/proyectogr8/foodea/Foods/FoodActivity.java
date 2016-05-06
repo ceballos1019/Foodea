@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
@@ -28,7 +29,7 @@ public class FoodActivity extends AppCompatActivity implements FoodListFragment.
 
 
     @Override
-    public void onFoodCategorySelected(int position) {
+    public void onFoodCategorySelected(String category) {
         /*
         // The user selects a category of food the FoodListFragment
 
@@ -46,19 +47,20 @@ public class FoodActivity extends AppCompatActivity implements FoodListFragment.
             // If the frag is not available, we're in the one-pane layout and must swap frags...
 
         // Create fragment and give it an argument for the selected article*/
-        FoodDetailsFragment foodDetailsFragment = new FoodDetailsFragment();
+        Toast.makeText(getApplicationContext(),category,Toast.LENGTH_LONG).show();
+        /*FoodDetailsFragment foodDetailsFragment = new FoodDetailsFragment();
         Bundle args = new Bundle();
         args.putInt(FoodDetailsFragment.ARG_POSITION, position);
         foodDetailsFragment.setArguments(args);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();*/
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_food_container, foodDetailsFragment);
-        transaction.addToBackStack(null);
+       //transaction.replace(R.id.fragment_food_container, foodDetailsFragment);
+        //transaction.addToBackStack(null);
 
         // Commit the transaction
-        transaction.commit();
+        //transaction.commit();
 
         //}
     }

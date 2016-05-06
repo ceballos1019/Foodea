@@ -22,12 +22,13 @@ import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
 public class FoodListFragment extends ListFragment {
 
 
+    private ArrayList<String> foodCategories;
     OnFoodCategorySelected mCallback;
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface OnFoodCategorySelected {
-        /** Called by HeadlinesFragment when a list item is selected*/
-        void onFoodCategorySelected(int position);
+        /** Called by FoodListFragment when a list item is selected*/
+        void onFoodCategorySelected(String category);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class FoodListFragment extends ListFragment {
         //Open the connection with the database
         dbHandler.openConnection();
         //get all foods categories
-        ArrayList<String> foodCategories = dbHandler.getAllFoodCategories();
+        foodCategories = dbHandler.getAllFoodCategories();
         dbHandler.closeConnection();
         for(String c: foodCategories){
             Log.d("TESTING",c);
@@ -83,7 +84,7 @@ public class FoodListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Notify the parent activity of selected item
-        mCallback.onFoodCategorySelected(position);
+        mCallback.onFoodCategorySelected(foodCategories.get(position));
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
 
