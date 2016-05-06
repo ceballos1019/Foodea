@@ -28,14 +28,19 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Capture the views
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        if(drawer!=null) {
+            drawer.setDrawerListener(toggle);
+        }
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if(navigationView!=null) {
+            navigationView.setNavigationItemSelectedListener(this);
+        }
     }
 
     @Override
@@ -44,7 +49,8 @@ public class HomeActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //Don't go back to the MainActivity
+            moveTaskToBack(true);
         }
     }
 
@@ -75,20 +81,26 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        /*if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
+        Intent intent;
+        switch (id){
+            case R.id.ib_food:
+                intent = new Intent(this,FoodActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ib_drink:
+                intent = new Intent(this,DrinkActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ib_place:
+                intent = new Intent(this,PlaceActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ib_settings:
+                Toast.makeText(getApplicationContext(),"Seleccionó configuración",Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -2,15 +2,24 @@ package co.edu.udea.compumovil.proyectogr8.foodea.Foods;
 
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import co.edu.udea.compumovil.proyectogr8.foodea.Ipsum;
+import java.util.ArrayList;
+
+import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
+import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
+import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 
 /**
@@ -21,10 +30,11 @@ public class FoodListFragment extends ListFragment {
 
     OnHeadlineSelectedListener mCallback;
 
+
     // The container Activity must implement this interface so the frag can deliver messages
     public interface OnHeadlineSelectedListener {
         /** Called by HeadlinesFragment when a list item is selected*/
-        public void onArticleSelected(int position);
+        public void onCategorySelected(int position);
     }
 
     @Override
@@ -32,11 +42,28 @@ public class FoodListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         // We need to use a different list item layout for devices older than Honeycomb
+
         int layout = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                 android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
+        DBAdapter dbHandler = new DBAdapter(getContext());
+        dbHandler.openConnection();
+        ArrayList<String> listProducts = dbHandler.getAllFoodCategories(getContext());
+        //ArrayList<String> listProductsStrings = listResult(listProducts);
+        // Create an array adapter for the list view, using the data read from the database
+        setListAdapter(new ArrayAdapter<>(getContext(),layout,listProducts));
+    }
 
-        // Create an array adapter for the list view, using the Ipsum headlines array
-        setListAdapter(new ArrayAdapter<String>(getActivity(), layout, Ipsum.Comidas));
+    private ArrayList<String> listResult(ArrayList<Product> listEvents) {
+        //Convertir lista de Eventos a lista de Strings con los encabezados de los eventos
+        ArrayList<String> stringProducts = new ArrayList<>();
+        String formatString;
+        Product currentProduct;
+        for(int i=0;i<listEvents.size();i++){
+            currentProduct=listEvents.get(i);
+            formatString=currentProduct.getName();
+            stringProducts.add(formatString);
+        }
+        return stringProducts;
     }
 
     @Override
@@ -69,7 +96,7 @@ public class FoodListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Notify the parent activity of selected item
-        mCallback.onArticleSelected(position);
+        mCallback.onCategorySelected(position);
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
 

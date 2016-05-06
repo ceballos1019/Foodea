@@ -15,24 +15,20 @@ public class FoodActivity extends AppCompatActivity implements FoodListFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
 
+        //Set the initial fragment for the activity
         if(findViewById(R.id.fragment_container) != null){
-
             Fragment foodListFragment = new FoodListFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fragment_container, foodListFragment);
             transaction.commit();
-
-            //getSupportFragmentManager().beginTransaction()
-            //        .add(R.id.fragment_container, headlinesFragment).commit();
-
         }
     }
 
 
     @Override
-    public void onArticleSelected(int position) {
+    public void onCategorySelected(int position) {
         /*
-        // The user selected the headline of an article from the HeadlinesFragment
+        // The user selects a category of food the FoodListFragment
 
         // Capture the article fragment from the activity layout
         ArticleFragment articleFrag = (ArticleFragment)
@@ -47,16 +43,16 @@ public class FoodActivity extends AppCompatActivity implements FoodListFragment.
         } else {
             // If the frag is not available, we're in the one-pane layout and must swap frags...
 
-            // Create fragment and give it an argument for the selected article*/
-        FoodDetailsFragment newFragment = new FoodDetailsFragment();
-        //Bundle args = new Bundle();
-        //args.putInt(FoodDetailsFragment.ARG_POSITION, position);
-        //newFragment.setArguments(args);
+        // Create fragment and give it an argument for the selected article*/
+        FoodDetailsFragment foodDetailsFragment = new FoodDetailsFragment();
+        Bundle args = new Bundle();
+        args.putInt(FoodDetailsFragment.ARG_POSITION, position);
+        foodDetailsFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.replace(R.id.fragment_container, foodDetailsFragment);
         transaction.addToBackStack(null);
 
         // Commit the transaction

@@ -18,7 +18,7 @@ import co.edu.udea.compumovil.proyectogr8.foodea.Ipsum;
  */
 public class FoodDetailsFragment extends ListFragment {
 
-
+    final static String ARG_POSITION = "position";
     OnFoodSelectedListener mCallback;
 
     // The container Activity must implement this interface so the frag can deliver messages
@@ -36,7 +36,7 @@ public class FoodDetailsFragment extends ListFragment {
                 android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
 
         // Create an array adapter for the list view, using the Ipsum headlines array
-        setListAdapter(new ArrayAdapter<String>(getActivity(), layout, Ipsum.ComidasEspecificas));
+        //setListAdapter(new ArrayAdapter<String>(getActivity(), layout, Ipsum.ComidasEspecificas));
     }
 
     @Override
