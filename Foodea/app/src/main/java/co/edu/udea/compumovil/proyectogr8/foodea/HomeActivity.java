@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Home");
+        setTitle("Inicio");
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,21 +84,24 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
         Intent intent;
         switch (id){
-            case R.id.ib_food:
+            case R.id.nav_food:
                 intent = new Intent(this,FoodActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.ib_drink:
+            case R.id.nav_drink:
                 intent = new Intent(this,DrinkActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.ib_place:
+            case R.id.nav_places:
                 intent = new Intent(this,PlaceActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.ib_settings:
-                Toast.makeText(getApplicationContext(),"Seleccionó configuración",Toast.LENGTH_SHORT).show();
+            case R.id.nav_help:
+                Toast.makeText(getApplicationContext(),"I need help!",Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.nav_log:
+                intent = new Intent(this,MainActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

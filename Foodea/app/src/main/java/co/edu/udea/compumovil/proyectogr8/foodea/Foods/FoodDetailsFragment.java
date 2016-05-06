@@ -6,11 +6,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import co.edu.udea.compumovil.proyectogr8.foodea.Ipsum;
+import java.util.ArrayList;
+
+import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
+import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 
 /**
@@ -18,36 +25,49 @@ import co.edu.udea.compumovil.proyectogr8.foodea.Ipsum;
  */
 public class FoodDetailsFragment extends ListFragment {
 
-    final static String ARG_POSITION = "position";
+    final static String ARG_CATEGORY = "Category";
+    private ArrayList<String> foodList;
+    private String mCurrentCategory;
     OnFoodSelectedListener mCallback;
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface OnFoodSelectedListener {
         /** Called by HeadlinesFragment when a list item is selected*/
-        public void onFoodSelected(int position);
+         void onFoodSelected(int position);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mCurrentCategory = getArguments().getString(ARG_CATEGORY);
+
         // We need to use a different list item layout for devices older than Honeycomb
         int layout = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                 android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
 
-        // Create an array adapter for the list view, using the Ipsum headlines array
-        //setListAdapter(new ArrayAdapter<String>(getActivity(), layout, Ipsum.ComidasEspecificas));
+        //Create the database handler
+        DBAdapter dbHandler = new DBAdapter(getContext());
+        //Open the connection with the database
+        dbHandler.openConnection();
+        //get all foods categories
+
+        foodList = dbHandler.getFoodByCategory(mCurrentCategory);
+        dbHandler.closeConnection();
+        /*for(String c: foodList){
+            Log.d("TESTING", c);
+        }*/
+
+        // Create an array adapter for the list view, using the data read from the database
+        setListAdapter(new ArrayAdapter<>(getActivity(), layout, foodList));
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        // When in two-pane layout, set the listview to highlight the selected list item
-        // (We do this during onStart because at the point the listview is available.)
-        /*if (getFragmentManager().findFragmentById(R.id.article_fragment) != null) {
-            getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        }*/
+
+
     }
 
     @Override

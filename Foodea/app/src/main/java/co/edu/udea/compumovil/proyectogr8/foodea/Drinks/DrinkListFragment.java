@@ -23,10 +23,11 @@ public class DrinkListFragment extends ListFragment {
     OnDrinkCategorySelectedListener mCallback;
     ArrayList<String> drinkCategories;
 
+
     // The container Activity must implement this interface so the frag can deliver messages
     public interface OnDrinkCategorySelectedListener {
         /** Called by HeadlinesFragment when a list item is selected*/
-         void onDrinkCategorySelected(int position);
+         void onDrinkCategorySelected(String category);
     }
 
     @Override
@@ -81,7 +82,7 @@ public class DrinkListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Notify the parent activity of selected item
-        mCallback.onDrinkCategorySelected(position);
+        mCallback.onDrinkCategorySelected(drinkCategories.get(position));
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
 

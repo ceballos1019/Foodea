@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
+import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
         if(isEmpty){
             new InitializeDBTask().execute();
         }else{
-            //for(Product p:dbHandler.getAllProducts(getApplicationContext())){
-             //   Log.d("TESTING",p.getName());
-            //}
+            /*for(Product p:dbHandler.getAllProducts()){
+                Log.d("TESTING",p.getName());
+            }*/
             dbHandler.closeConnection();
         }
 
@@ -65,14 +66,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            initializeDB();
+            initializeProductsDB();
+            initializePlacesDB();
             dbHandler.closeConnection();
             return null;
         }
     }
 
     //Method for initializing the database
-    public void initializeDB(){
+    public void initializeProductsDB(){
         Log.d("onInitializing","INITIALIZING DATABSE...");
 
         dbHandler.insertProduct(new Product("Menu Completo","Comida","Almuerzo"));
@@ -218,5 +220,18 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.insertProduct(new Product("Gaseosa dispensador","Bebida","Refrescos"));
         dbHandler.insertProduct(new Product("Perico","Bebida","Bebidas Calientes"));
         Log.d("onInitializing","FINISHED WORK ON DATABASE");
+    }
+
+    public void initializePlacesDB(){
+        dbHandler.insertPlace(new Place("Restaurante Mall de Ingenieria",6.268412,-75.568378,"Cerca al bloque 21"));
+        dbHandler.insertPlace(new Place("Reposteria Lolita",6.268306,-75.568385,"Cerca al bloque 21"));
+        dbHandler.insertPlace(new Place("Torino - Pasta & Pizza",6.268262,-75.570076,"Cerca al bloque de artes"));
+        dbHandler.insertPlace(new Place("PuntoGourmet 1",6.268563,-75.568368,"Cerca al bloque 21"));
+        dbHandler.insertPlace(new Place("PuntoGourmet 2",6.268710,-75.568365,"Cerca al bloque 21"));
+        dbHandler.insertPlace(new Place("Restaurante-Cafeteria Deportes",6.268476,-75.568749,"Debajo de la libreria"));
+        dbHandler.insertPlace(new Place("Restaurante Cafeteria Facultad de Artes",6.267921,-75.569416,"Facultad de Artes"));
+        dbHandler.insertPlace(new Place("Sazón y Parrilla",6.268186,-75.568391,"Debajo de la libreria"));
+        dbHandler.insertPlace(new Place("Burbuja",6.268185,-75.567491,""));
+
     }
 }

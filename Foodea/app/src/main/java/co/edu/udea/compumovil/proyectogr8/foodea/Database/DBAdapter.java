@@ -10,6 +10,7 @@ import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 
+import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 
 
@@ -20,7 +21,7 @@ public class DBAdapter {
     private static final String TAG = DBHandler.class.getSimpleName();
 
     //Información de la base de datos
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Foodea.db";
     public static final String STRING_TYPE = "text";
     public static final String INT_TYPE = "integer";
@@ -162,6 +163,7 @@ public class DBAdapter {
         db.insert(PRODUCT_TABLE,null,values);
     }
 
+    //Check if product table is empty
     public boolean isEmpty(){
         long numRows = DatabaseUtils.queryNumEntries(db,PRODUCT_TABLE);
         if(numRows==0){
@@ -174,7 +176,7 @@ public class DBAdapter {
     //Get all distinct food categories
     public ArrayList<String> getAllFoodCategories(){
 
-        //
+        //Setting up the parameters for the query
         String columns [] ={Producto.PRODUCT_ID,Producto.PRODUCT_CATEGORY};
         String selection = Producto.PRODUCT_TYPE+"=?";
         String selectionArgs[] = {"Comida"};
@@ -198,6 +200,7 @@ public class DBAdapter {
 
     //get all distinct drink categories
     public ArrayList<String> getAllDrinkCategories(){
+
         //Setting up the parameters for the query
         String columns [] ={Producto.PRODUCT_ID,Producto.PRODUCT_CATEGORY};
         String selection = Producto.PRODUCT_TYPE+"=?";
@@ -223,19 +226,18 @@ public class DBAdapter {
 
 
     //Traer todos los eventos de la base de datos
-    public ArrayList<Product> getAllProducts(Context context){
-        //Validar que los datos de login ingresados sean correctos
+    public ArrayList<Product> getAllProducts( ){
+
+        //Setting up the parameters for the query
         String columns [] =    {Producto.PRODUCT_NAME,
                 Producto.PRODUCT_TYPE,
                 Producto.PRODUCT_CATEGORY};
 
-        //Cursor c1 = db.query(TABLA_USUARIOS,columns,selection,selectionArgs,null,null,null);
         Cursor c1 = db.query(PRODUCT_TABLE,columns,null,null,null,null,null);
         ArrayList<Product> listEvents = new ArrayList<>();
 
 
-        //Si el cursor esta vacio es porque no hay eventos
-
+        //If the cursor is empty, there are not products
         if(c1.moveToFirst()){
             do{
                 Product currentEvent = new Product();
@@ -245,11 +247,94 @@ public class DBAdapter {
                 listEvents.add(currentEvent);
             }while (c1.moveToNext());
         }
-        if (!c1.isClosed()) {//Se cierra el cursor si no está cerrado ya
+        //Close the cursor
+        if (!c1.isClosed()) {
             c1.close();
         }
         return listEvents;
     }
 
+    //Get food products of an specified category
+    public ArrayList<String> getFoodByCategory(String category){
+
+        //Setting up the parameters for the query
+        String columns [] ={Producto.PRODUCT_NAME};
+        String selection = Producto.PRODUCT_CATEGORY+"=? and "+Producto.PRODUCT_TYPE+"=?";
+        String selectionArgs[] = {category,"Comida"};
+
+        Cursor cursor = db.query(PRODUCT_TABLE,columns,selection,selectionArgs,null,null,null);
+        ArrayList<String> listFoodProducts = new ArrayList<>();
+
+        //If the cursor is empty, there are not categories
+        if(cursor.moveToFirst()){
+            do{
+                listFoodProducts.add(cursor.getString(0));
+            }while (cursor.moveToNext());
+        }
+
+        //Close the cursor
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return listFoodProducts;
+    }
+
+
+    //Get drink products of an specified category
+    public ArrayList<String> getDrinkByCategory(String category){
+
+        //Setting up the parameters for the query
+        String columns [] ={Producto.PRODUCT_NAME};
+        String selection = Producto.PRODUCT_CATEGORY+"=? and "+Producto.PRODUCT_TYPE+"=?";
+        String selectionArgs[] = {category,"Bebida"};
+
+        Cursor cursor = db.query(PRODUCT_TABLE,columns,selection,selectionArgs,null,null,null);
+        ArrayList<String> listDrinkProducts = new ArrayList<>();
+
+        //If the cursor is empty, there are not categories
+        if(cursor.moveToFirst()){
+            do{
+                listDrinkProducts.add(cursor.getString(0));
+            }while (cursor.moveToNext());
+        }
+
+        //Close the cursor
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return listDrinkProducts;
+    }
+
+    //Insert a place
+    public void insertPlace(co.edu.udea.compumovil.proyectogr8.foodea.Model.Place place){
+        ContentValues values = new ContentValues();
+        values.put(Place.PLACE_NAME,place.getName());
+        values.put(Place.PLACE_LATITUDE, place.getLatitude());
+        values.put(Place.PLACE_LONGITUDE, place.getLongitude());
+        values.put(Place.PLACE_DESCRIPTION,place.getDescription());
+        db.insert(PLACE_TABLE,null,values);
+    }
+
+    //Traer todos los eventos de la base de datos
+    public ArrayList<String> getAllPlaces( ){
+
+        //Setting up the parameters for the query
+        String columns [] =    {Place.PLACE_ID,Place.PLACE_NAME};
+
+        Cursor c1 = db.query(PLACE_TABLE,columns,null,null,null,null,null);
+        ArrayList<String> listPlaces = new ArrayList<>();
+
+       //If the cursor is empty, there are not products
+        if(c1.moveToFirst()){
+            do{
+                listPlaces.add(c1.getString(1));
+            }while (c1.moveToNext());
+        }
+        //Close the cursor
+        if (!c1.isClosed()) {
+            c1.close();
+        }
+        return listPlaces;
+    }
 
 }
