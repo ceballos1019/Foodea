@@ -8,25 +8,27 @@ import android.util.Log;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
-public class FoodActivity extends AppCompatActivity implements FoodListFragment.OnHeadlineSelectedListener, FoodDetailsFragment.OnFoodSelectedListener{
+public class FoodActivity extends AppCompatActivity implements FoodListFragment.OnFoodCategorySelected, FoodDetailsFragment.OnFoodSelectedListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food);
+        setTitle("Comidas");
 
         //Set the initial fragment for the activity
-        if(findViewById(R.id.fragment_container) != null){
+        if(findViewById(R.id.fragment_food_container) != null){
+            Log.d("TESTING","ON FOOD ACTIIVTY");
             Fragment foodListFragment = new FoodListFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragment_container, foodListFragment);
+            transaction.add(R.id.fragment_food_container, foodListFragment);
             transaction.commit();
         }
     }
 
 
     @Override
-    public void onCategorySelected(int position) {
+    public void onFoodCategorySelected(int position) {
         /*
         // The user selects a category of food the FoodListFragment
 
@@ -52,7 +54,7 @@ public class FoodActivity extends AppCompatActivity implements FoodListFragment.
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, foodDetailsFragment);
+        transaction.replace(R.id.fragment_food_container, foodDetailsFragment);
         transaction.addToBackStack(null);
 
         // Commit the transaction

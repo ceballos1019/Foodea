@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -33,8 +34,13 @@ public class MainActivity extends AppCompatActivity {
         if(isEmpty){
             new InitializeDBTask().execute();
         }else{
+            //for(Product p:dbHandler.getAllProducts(getApplicationContext())){
+             //   Log.d("TESTING",p.getName());
+            //}
             dbHandler.closeConnection();
         }
+
+
 
         //Launch the HomeActivity
         Intent home = new Intent(MainActivity.this, HomeActivity.class);
@@ -60,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             initializeDB();
+            dbHandler.closeConnection();
             return null;
         }
     }
@@ -209,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
         dbHandler.insertProduct(new Product("Agua en vaso","Bebida","Otras bebidas"));
         dbHandler.insertProduct(new Product("Bolsa de Agua","Bebida","Otras bebidas"));
         dbHandler.insertProduct(new Product("Gaseosa dispensador","Bebida","Refrescos"));
-        dbHandler.insertProduct(new Product("Perico","Bebida","Bebidas Caliente"));
+        dbHandler.insertProduct(new Product("Perico","Bebida","Bebidas Calientes"));
         Log.d("onInitializing","FINISHED WORK ON DATABASE");
     }
 }

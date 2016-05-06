@@ -27,7 +27,7 @@ public class DrinkDetailsFragment extends ListFragment {
     // The container Activity must implement this interface so the frag can deliver messages
     public interface onDrinkSelectedListener {
         /** Called by HeadlinesFragment when a list item is selected*/
-        public void onDrinkSelected(int position);
+         void onDrinkSelected(int position);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class DrinkDetailsFragment extends ListFragment {
             mCallback = (onDrinkSelectedListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnFoodCategorySelected");
         }
 
     }

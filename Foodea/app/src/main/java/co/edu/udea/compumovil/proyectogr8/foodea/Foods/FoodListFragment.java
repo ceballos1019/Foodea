@@ -2,24 +2,18 @@ package co.edu.udea.compumovil.proyectogr8.foodea.Foods;
 
 
 import android.app.Activity;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
-import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
-import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 
 /**
@@ -28,13 +22,12 @@ import co.edu.udea.compumovil.proyectogr8.foodea.R;
 public class FoodListFragment extends ListFragment {
 
 
-    OnHeadlineSelectedListener mCallback;
-
+    OnFoodCategorySelected mCallback;
 
     // The container Activity must implement this interface so the frag can deliver messages
-    public interface OnHeadlineSelectedListener {
+    public interface OnFoodCategorySelected {
         /** Called by HeadlinesFragment when a list item is selected*/
-        public void onCategorySelected(int position);
+        void onFoodCategorySelected(int position);
     }
 
     @Override
@@ -45,25 +38,19 @@ public class FoodListFragment extends ListFragment {
 
         int layout = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                 android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
-        DBAdapter dbHandler = new DBAdapter(getContext());
-        dbHandler.openConnection();
-        ArrayList<String> listProducts = dbHandler.getAllFoodCategories(getContext());
-        //ArrayList<String> listProductsStrings = listResult(listProducts);
-        // Create an array adapter for the list view, using the data read from the database
-        setListAdapter(new ArrayAdapter<>(getContext(),layout,listProducts));
-    }
 
-    private ArrayList<String> listResult(ArrayList<Product> listEvents) {
-        //Convertir lista de Eventos a lista de Strings con los encabezados de los eventos
-        ArrayList<String> stringProducts = new ArrayList<>();
-        String formatString;
-        Product currentProduct;
-        for(int i=0;i<listEvents.size();i++){
-            currentProduct=listEvents.get(i);
-            formatString=currentProduct.getName();
-            stringProducts.add(formatString);
+        //Create the database handler
+        DBAdapter dbHandler = new DBAdapter(getContext());
+        //Open the connection with the database
+        dbHandler.openConnection();
+        //get all foods categories
+        ArrayList<String> foodCategories = dbHandler.getAllFoodCategories();
+        dbHandler.closeConnection();
+        for(String c: foodCategories){
+            Log.d("TESTING",c);
         }
-        return stringProducts;
+        // Create an array adapter for the list view, using the data read from the database
+        setListAdapter(new ArrayAdapter<>(getContext(),layout,foodCategories));
     }
 
     @Override
@@ -85,10 +72,10 @@ public class FoodListFragment extends ListFragment {
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception.
         try {
-            mCallback = (OnHeadlineSelectedListener) activity;
+            mCallback = (OnFoodCategorySelected) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnFoodCategorySelected");
         }
 
     }
@@ -96,7 +83,7 @@ public class FoodListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Notify the parent activity of selected item
-        mCallback.onCategorySelected(position);
+        mCallback.onFoodCategorySelected(position);
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
 

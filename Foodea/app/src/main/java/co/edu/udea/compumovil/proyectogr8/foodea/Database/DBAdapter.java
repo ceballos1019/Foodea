@@ -20,7 +20,7 @@ public class DBAdapter {
     private static final String TAG = DBHandler.class.getSimpleName();
 
     //Información de la base de datos
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "Foodea.db";
     public static final String STRING_TYPE = "text";
     public static final String INT_TYPE = "integer";
@@ -171,29 +171,59 @@ public class DBAdapter {
         }
     }
 
-    public ArrayList<String> getAllFoodCategories(Context context){
-        //Validar que los datos de login ingresados sean correctos
+    //Get all distinct food categories
+    public ArrayList<String> getAllFoodCategories(){
+
+        //
         String columns [] ={Producto.PRODUCT_ID,Producto.PRODUCT_CATEGORY};
         String selection = Producto.PRODUCT_TYPE+"=?";
         String selectionArgs[] = {"Comida"};
 
         Cursor cursor = db.query(true,PRODUCT_TABLE,columns,selection,selectionArgs,Producto.PRODUCT_CATEGORY,null,null,null);
         ArrayList<String> categories = new ArrayList<>();
-        //Si el cursor esta vacio es porque no hay eventos
 
+        //If the cursor is empty, there are not categories
         if(cursor.moveToFirst()){
             do{
                 categories.add(cursor.getString(1));
             }while (cursor.moveToNext());
         }
-        if (!cursor.isClosed()) {//Se cierra el cursor si no está cerrado ya
+
+        //Close the cursor
+        if (!cursor.isClosed()) {
             cursor.close();
         }
         return categories;
     }
 
+    //get all distinct drink categories
+    public ArrayList<String> getAllDrinkCategories(){
+        //Setting up the parameters for the query
+        String columns [] ={Producto.PRODUCT_ID,Producto.PRODUCT_CATEGORY};
+        String selection = Producto.PRODUCT_TYPE+"=?";
+        String selectionArgs[] = {"Bebida"};
+
+        Cursor cursor = db.query(true,PRODUCT_TABLE,columns,selection,selectionArgs,Producto.PRODUCT_CATEGORY,null,null,null);
+        ArrayList<String> categories = new ArrayList<>();
+
+        //If the cursor is empty, there are not categories
+        if(cursor.moveToFirst()){
+            do{
+                categories.add(cursor.getString(1));
+            }while (cursor.moveToNext());
+        }
+
+        //Close the cursor
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+        return categories;
+    }
+
+
+
     //Traer todos los eventos de la base de datos
-    public Cursor getAllProducts(Context context){
+    public ArrayList<Product> getAllProducts(Context context){
         //Validar que los datos de login ingresados sean correctos
         String columns [] =    {Producto.PRODUCT_NAME,
                 Producto.PRODUCT_TYPE,
@@ -201,8 +231,7 @@ public class DBAdapter {
 
         //Cursor c1 = db.query(TABLA_USUARIOS,columns,selection,selectionArgs,null,null,null);
         Cursor c1 = db.query(PRODUCT_TABLE,columns,null,null,null,null,null);
-        return c1;
-        /*ArrayList<Product> listEvents = new ArrayList<>();
+        ArrayList<Product> listEvents = new ArrayList<>();
 
 
         //Si el cursor esta vacio es porque no hay eventos
@@ -219,7 +248,7 @@ public class DBAdapter {
         if (!c1.isClosed()) {//Se cierra el cursor si no está cerrado ya
             c1.close();
         }
-        return listEvents;*/
+        return listEvents;
     }
 
 

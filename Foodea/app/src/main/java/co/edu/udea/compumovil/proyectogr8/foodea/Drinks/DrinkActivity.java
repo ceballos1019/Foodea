@@ -4,23 +4,24 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Foods.FoodDetailsFragment;
-import co.edu.udea.compumovil.proyectogr8.foodea.Foods.FoodListFragment;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
-public class DrinkActivity extends AppCompatActivity implements DrinkListFragment.OnHeadlineSelectedListener, DrinkDetailsFragment.onDrinkSelectedListener {
+public class DrinkActivity extends AppCompatActivity implements DrinkListFragment.OnDrinkCategorySelectedListener, DrinkDetailsFragment.onDrinkSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink);
+        setTitle("Bebidas");
 
-        if(findViewById(R.id.fragment_container) != null){
-
-            Fragment foodListFragment = new FoodListFragment();
+        if(findViewById(R.id.fragment_drink_container) != null){
+            Log.d("TESTING","ON DRINK ACTIIVTY");
+            Fragment drinkListFragment = new DrinkListFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.fragment_container, foodListFragment);
+            transaction.add(R.id.fragment_drink_container,drinkListFragment);
             transaction.commit();
 
             //getSupportFragmentManager().beginTransaction()
@@ -30,7 +31,7 @@ public class DrinkActivity extends AppCompatActivity implements DrinkListFragmen
     }
 
     @Override
-    public void onArticleSelected(int position) {
+    public void onDrinkCategorySelected(int position) {
         /*
         // The user selected the headline of an article from the HeadlinesFragment
 
@@ -49,14 +50,14 @@ public class DrinkActivity extends AppCompatActivity implements DrinkListFragmen
 
             // Create fragment and give it an argument for the selected article*/
         FoodDetailsFragment newFragment = new FoodDetailsFragment();
-        //Bundle args = new Bundle();
+        Bundle args = new Bundle();
         //args.putInt(FoodDetailsFragment.ARG_POSITION, position);
         //newFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.replace(R.id.fragment_drink_container, newFragment);
         transaction.addToBackStack(null);
 
         // Commit the transaction
