@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Launch the HomeActivity
-        Intent home = new Intent(MainActivity.this, HomeActivity.class);
-        startActivity(home);
+        //Intent home = new Intent(MainActivity.this, HomeActivity.class);
+        //startActivity(home);
     }
 
     public void onClick(View v){
