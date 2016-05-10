@@ -7,11 +7,12 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
+import co.edu.udea.compumovil.proyectogr8.foodea.Model.User;
 
 
 /**
@@ -21,10 +22,22 @@ public class DBAdapter {
     private static final String TAG = DBHandler.class.getSimpleName();
 
     //Información de la base de datos
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 7;
     public static final String DATABASE_NAME = "Foodea.db";
     public static final String STRING_TYPE = "text";
     public static final String INT_TYPE = "integer";
+
+    //Definicion de la tabla usuario
+    public static final String USER_TABLE = "User";
+
+
+    public class Usuario implements BaseColumns{
+        public static final  String USER_ID=BaseColumns._ID;
+        public static final  String USER_USER="User";
+        public static final  String USER_PASSWORD="Password";
+        public static final  String USER_EMAIL="Email";
+    }
+
 
     //Definicion de la tabla producto
     public static final String PRODUCT_TABLE = "Product";
@@ -55,8 +68,27 @@ public class DBAdapter {
         public static final String PRICE = "Price";
         public static final String RATING = "Rating";
     }
+    //Definicion de la tabla Login
+    public static final String LOGIN_TABLE = "Login";
+    public class Login implements  BaseColumns{
+        public static final String LOGIN_CURRENT_USER_NAME= "User";
+    }
 
-    //Sentencias para la creación de las tablas
+//Sentencias para la creación de las tablas
+
+
+    private static final String USER_TABLE_CREATE = String
+            .format("CREATE TABLE %s (" +
+                            "%s INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "%s TEXT NOT NULL," +
+                            "%s TEXT NOT NULL," +
+                            "%s TEXT NOT NULL)",
+                    USER_TABLE,
+                    Usuario.USER_ID,
+                    Usuario.USER_USER,
+                    Usuario.USER_PASSWORD,
+                    Usuario.USER_EMAIL);
+
 
     private static final String PRODUCT_TABLE_CREATE = String
             .format("CREATE TABLE %s (" +
@@ -109,6 +141,11 @@ public class DBAdapter {
                     ProductXPlace.PRODUCT_ID
                     );
 
+    private static final String LOGIN_TABLE_CREATE = String
+            .format("create table %s (%s text primary key)",
+                    LOGIN_TABLE,
+                    Login.LOGIN_CURRENT_USER_NAME);
+
     private Context nContext;
     private SQLiteDatabase db;
     private DBHandler dbHandler; //Gestor de base de datos
@@ -140,19 +177,87 @@ public class DBAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            db.execSQL(USER_TABLE_CREATE);
             db.execSQL(PLACE_TABLE_CREATE);
             db.execSQL(PRODUCT_TABLE_CREATE);
             db.execSQL(PRODUCTXPLACE_TABLE_CREATE);
+            db.execSQL(LOGIN_TABLE_CREATE);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL("DROP TABLE IF EXISTS "+LOGIN_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS "+USER_TABLE);
             db.execSQL("DROP TABLE IF EXISTS "+PRODUCT_TABLE);
             db.execSQL("DROP TABLE IF EXISTS "+PLACE_TABLE);
             db.execSQL("DROP TABLE IF EXISTS "+PRODUCTXPLACE_TABLE);
             onCreate(db);
         }
     }
+    //Insertar usuario en la base de datos
+    public void insertUser(String name, String password, String email){
+        ContentValues values= new ContentValues();
+        values.put(Usuario.USER_USER,name);
+        values.put(Usuario.USER_PASSWORD,password);
+        values.put(Usuario.USER_EMAIL,email);
+        db.insert(USER_TABLE, null, values);
+    }
+    //Obtener un usuario de la base de datos
+    public boolean getUser(Context context,String username,String pass){
+        //Validar que los datos de login ingresados sean correctos
+        String columns [] = {Usuario.USER_USER,Usuario.USER_PASSWORD};
+        String selection = "User=? and Password=?";
+        String selectionArgs[] = {username,pass};
+
+        Cursor c1 = db.query(USER_TABLE,columns,selection,selectionArgs,null,null,null);
+        //Cursor c1 = db.query(TABLA_USUARIOS,columns,null,null,null,null,null);
+
+        //Si el cursor esta vacio es porque el usuario o la contraseña es incorrecta
+        if(!c1.moveToFirst()){
+            Toast.makeText(context, "Usuario o contraseña incorrectas", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    //Inserta el usuario actualmente logeado en la tabla Login
+    public void setCurrentLogin(String currentUser){
+        ContentValues values= new ContentValues();
+        values.put(Login.LOGIN_CURRENT_USER_NAME, currentUser);
+        db.insert(LOGIN_TABLE, null, values);
+
+    }
+    //Retorna el usuario logeado actualmente
+    public User getCurrentUser(){
+        String columns [] = {Login.LOGIN_CURRENT_USER_NAME};
+        Cursor c1 = db.query(LOGIN_TABLE,columns,null,null,null,null,null);
+        //Si el cursor esta vacio es porque no hay usuarios logeados
+        User currentUser = null;
+        if(!c1.moveToFirst()){
+            return null;
+        }
+        String nameCurrentUser = c1.getString(0);
+        c1.close();
+        String columnsQuery[] = {Usuario.USER_USER, Usuario.USER_EMAIL};
+        String selection = "User=?";
+        String selectionArgs[] = {nameCurrentUser};
+        Cursor c2 = db.query(USER_TABLE,columnsQuery,selection,selectionArgs,null,null,null);
+        if(c2.moveToFirst()){
+            currentUser = new User();
+            currentUser.setName(c2.getString(0));
+            currentUser.setEmail(c2.getString(1));
+        }
+        c2.close();
+        return currentUser;
+    }
+
+    //Elimina el registro de la tabla login (Implementado para deslogearse)
+    public void deleteLogin() {
+        db.delete(LOGIN_TABLE,null,null);
+    }
+
+
+
 
     //Insert product
     public void insertProduct(Product product){
