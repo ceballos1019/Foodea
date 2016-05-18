@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
+import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 /**
@@ -20,7 +21,7 @@ import co.edu.udea.compumovil.proyectogr8.foodea.R;
  */
 public class PlaceListFragment extends ListFragment {
 
-    private ArrayList<String> places;
+    private ArrayList<Place> places;
 
 
 
@@ -38,11 +39,15 @@ public class PlaceListFragment extends ListFragment {
         dbHandler.openConnection();
         //get all foods categories
         places = dbHandler.getAllPlaces();
+        ArrayList<String> placesNames = new ArrayList<>();
+        for(Place place: places){
+               placesNames.add(place.getName());
+           }
         dbHandler.closeConnection();
         /*for(String c: places){
             Log.d("TESTING", c);
         }*/
         // Create an array adapter for the list view, using the data read from the database
-        setListAdapter(new ArrayAdapter<>(getContext(),layout,places));
+        setListAdapter(new ArrayAdapter<>(getContext(),layout,placesNames));
     }
 }

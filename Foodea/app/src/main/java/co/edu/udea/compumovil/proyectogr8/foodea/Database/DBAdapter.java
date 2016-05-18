@@ -10,7 +10,9 @@ import android.provider.BaseColumns;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Currency;
 
+import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.User;
 
@@ -52,7 +54,7 @@ public class DBAdapter {
 
     //Definicion de la tabla place
     public static final String PLACE_TABLE = "Place";
-    public class Place implements BaseColumns{
+    public class Site implements BaseColumns{
         public static final String PLACE_ID =BaseColumns._ID;
         public static final String PLACE_NAME= "Name";
         public static final String PLACE_LATITUDE = "Latitude";
@@ -110,11 +112,11 @@ public class DBAdapter {
                     "%s REAL NOT NULL," +
                     "%s TEXT)",
                     PLACE_TABLE,
-                    Place.PLACE_ID,
-                    Place.PLACE_NAME,
-                    Place.PLACE_LATITUDE,
-                    Place.PLACE_LONGITUDE,
-                    Place.PLACE_DESCRIPTION);
+                    Site.PLACE_ID,
+                    Site.PLACE_NAME,
+                    Site.PLACE_LATITUDE,
+                    Site.PLACE_LONGITUDE,
+                    Site.PLACE_DESCRIPTION);
 
 
     private static final String PRODUCTXPLACE_TABLE_CREATE = String
@@ -133,7 +135,7 @@ public class DBAdapter {
                     ProductXPlace.RATING,
                     ProductXPlace.PLACE_ID,
                     PLACE_TABLE,
-                    Place.PLACE_ID,
+                    Site.PLACE_ID,
                     ProductXPlace.PRODUCT_ID,
                     PRODUCT_TABLE,
                     Producto.PRODUCT_ID,
@@ -334,7 +336,8 @@ public class DBAdapter {
     public ArrayList<Product> getAllProducts( ){
 
         //Setting up the parameters for the query
-        String columns [] =    {Producto.PRODUCT_NAME,
+        String columns [] =    {Producto.PRODUCT_ID,
+                Producto.PRODUCT_NAME,
                 Producto.PRODUCT_TYPE,
                 Producto.PRODUCT_CATEGORY};
 
@@ -346,9 +349,10 @@ public class DBAdapter {
         if(c1.moveToFirst()){
             do{
                 Product currentEvent = new Product();
-                currentEvent.setName(c1.getString(0));
-                currentEvent.setType(c1.getString(1));
-                currentEvent.setCategory(c1.getString(2));
+                currentEvent.setId(c1.getInt(0));
+                currentEvent.setName(c1.getString(1));
+                currentEvent.setType(c1.getString(2));
+                currentEvent.setCategory(c1.getString(3));
                 listEvents.add(currentEvent);
             }while (c1.moveToNext());
         }
@@ -413,26 +417,29 @@ public class DBAdapter {
     //Insert a place
     public void insertPlace(co.edu.udea.compumovil.proyectogr8.foodea.Model.Place place){
         ContentValues values = new ContentValues();
-        values.put(Place.PLACE_NAME,place.getName());
-        values.put(Place.PLACE_LATITUDE, place.getLatitude());
-        values.put(Place.PLACE_LONGITUDE, place.getLongitude());
-        values.put(Place.PLACE_DESCRIPTION,place.getDescription());
+        values.put(Site.PLACE_NAME,place.getName());
+        values.put(Site.PLACE_LATITUDE, place.getLatitude());
+        values.put(Site.PLACE_LONGITUDE, place.getLongitude());
+        values.put(Site.PLACE_DESCRIPTION,place.getDescription());
         db.insert(PLACE_TABLE,null,values);
     }
 
     //Traer todos los eventos de la base de datos
-    public ArrayList<String> getAllPlaces( ){
+    public ArrayList<Place> getAllPlaces( ){
 
         //Setting up the parameters for the query
-        String columns [] =    {Place.PLACE_ID,Place.PLACE_NAME};
+        String columns [] =    {Site.PLACE_ID,Site.PLACE_NAME};
 
         Cursor c1 = db.query(PLACE_TABLE,columns,null,null,null,null,null);
-        ArrayList<String> listPlaces = new ArrayList<>();
+        ArrayList<Place> listPlaces = new ArrayList<>();
 
        //If the cursor is empty, there are not products
         if(c1.moveToFirst()){
             do{
-                listPlaces.add(c1.getString(1));
+                Place currentPlace = new Place();
+                currentPlace.setId(c1.getInt(0));
+                currentPlace.setName(c1.getString(1));
+                listPlaces.add(currentPlace);
             }while (c1.moveToNext());
         }
         //Close the cursor
