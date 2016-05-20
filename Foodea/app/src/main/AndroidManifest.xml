@@ -2,13 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.edu.udea.compumovil.proyectogr8.foodea">
 
+    <permission
+        android:name="co.edu.udea.compumovil.proyectogr8.foodea.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="co.edu.udea.compumovil.proyectogr8.foodea.permission.C2D_MESSAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".HomeActivity"
@@ -20,10 +26,39 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".Foods.FoodActivity" />
         <activity android:name=".Drinks.DrinkActivity" />
-        <activity android:name=".Places.PlaceActivity"></activity>
+        <activity android:name=".Places.PlaceActivity" />
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="co.edu.udea.compumovil.proyectogr8.foodea" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".GCM.RegistrationService"
+            android:exported="false"></service>
+
+        <service
+            android:name=".GCM.NotificationListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".GCM.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "41763798154",
+    "project_id": "foodea-c3a5f"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41763798154:android:26a2cca2f814851c",
+        "android_client_info": {
+          "package_name": "co.edu.udea.compumovil.proyectogr8.foodea"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0k6MSF_tgovpdEtrghRCsh375YvDDygo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

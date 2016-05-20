@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
 import co.edu.udea.compumovil.proyectogr8.foodea.Drinks.DrinkActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.Foods.FoodActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.GCM.RegistrationService;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.User;
@@ -53,6 +54,17 @@ public class HomeActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         }
 
+        Intent i = new Intent(this, RegistrationService.class);
+        startService(i);
+        if(savedInstanceState!=null) {
+            String message = savedInstanceState.getString("msg");
+            Log.d("MENSAJE",message);
+            if (message != null) {
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Log.d("MENSAJE","No llego el mensaje");
+        }
 
         dbHandler = new DBAdapter(getApplicationContext());
         dbHandler.openConnection();
@@ -66,6 +78,7 @@ public class HomeActivity extends AppCompatActivity
             }*/
             dbHandler.closeConnection();
         }
+
     }
 
     @Override
