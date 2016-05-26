@@ -24,6 +24,7 @@ import co.edu.udea.compumovil.proyectogr8.foodea.GCM.RegistrationService;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.User;
+import co.edu.udea.compumovil.proyectogr8.foodea.Places.MapsActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceActivity;
 
 public class HomeActivity extends AppCompatActivity
@@ -177,7 +178,7 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.ib_place:
-                intent = new Intent(this, PlaceActivity.class);
+                intent = new Intent(this, MapsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.ib_settings:
