@@ -428,7 +428,7 @@ public class DBAdapter {
     public ArrayList<Place> getAllPlaces( ){
 
         //Setting up the parameters for the query
-        String columns [] =    {Site.PLACE_ID,Site.PLACE_NAME};
+        String columns [] =    {Site.PLACE_ID,Site.PLACE_NAME, Site.PLACE_LATITUDE, Site.PLACE_LONGITUDE,Site.PLACE_DESCRIPTION};
 
         Cursor c1 = db.query(PLACE_TABLE,columns,null,null,null,null,null);
         ArrayList<Place> listPlaces = new ArrayList<>();
@@ -439,6 +439,9 @@ public class DBAdapter {
                 Place currentPlace = new Place();
                 currentPlace.setId(c1.getInt(0));
                 currentPlace.setName(c1.getString(1));
+                currentPlace.setLatitude(c1.getDouble(2));
+                currentPlace.setLongitude(c1.getDouble(3));
+                currentPlace.setDescription(c1.getString(4));
                 listPlaces.add(currentPlace);
             }while (c1.moveToNext());
         }

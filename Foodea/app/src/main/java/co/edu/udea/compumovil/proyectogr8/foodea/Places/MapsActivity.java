@@ -2,6 +2,7 @@ package co.edu.udea.compumovil.proyectogr8.foodea.Places;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -60,12 +61,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ArrayList<Place> places;
         places = dbHandler.getAllPlaces();
         dbHandler.closeConnection();
-        LatLng position = new LatLng(-34,151);
+        LatLng position = new LatLng(places.get(0).getLatitude(),places.get(0).getLongitude());
+        mMap.addMarker(new MarkerOptions().position(position).title("test"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,17));
+
+        /*LatLng position = new LatLng(-34,151);
         for(Place place:places){
             System.out.println(place.getName());
             position = new LatLng(place.getLatitude(),place.getLongitude());
             mMap.addMarker(new MarkerOptions().position(position).title("test"));
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));*/
     }
 }
