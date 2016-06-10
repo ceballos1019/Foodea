@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class DBAdapter {
     private static final String TAG = DBHandler.class.getSimpleName();
 
     //Información de la base de datos
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 10;
     public static final String DATABASE_NAME = "Foodea.db";
     public static final String STRING_TYPE = "text";
     public static final String INT_TYPE = "integer";
@@ -332,7 +333,7 @@ public class DBAdapter {
 
 
 
-    //Traer todos los eventos de la base de datos
+    //Traer todos los productos de la base de datos
     public ArrayList<Product> getAllProducts( ){
 
         //Setting up the parameters for the query
@@ -450,6 +451,80 @@ public class DBAdapter {
             c1.close();
         }
         return listPlaces;
+    }
+
+    //Insert registers to the ProductXPlace table
+    public void insertProductxPlace(int placeId, int productId, int price){
+        ContentValues values = new ContentValues();
+        values.put(ProductXPlace.PLACE_ID,placeId);
+        values.put(ProductXPlace.PRODUCT_ID,productId);
+        values.put(ProductXPlace.PRICE,price);
+        db.insert(PRODUCTXPLACE_TABLE,null,values);
+    }
+
+    //Return the places where exist the specified product
+    public ArrayList<Place> getPlacesByProduct(String productName){
+        //Setting up the parameters for the first query
+        String table = PRODUCT_TABLE + " INNER JOIN " + PRODUCTXPLACE_TABLE + " ON " + PRODUCT_TABLE+"."+Producto.PRODUCT_ID +"="+PRODUCTXPLACE_TABLE+"."+ProductXPlace.PRODUCT_ID
+                + " INNER JOIN " + PLACE_TABLE + " ON " + PLACE_TABLE+"."+Site.PLACE_ID +"="+PRODUCTXPLACE_TABLE+"."+ProductXPlace.PLACE_ID;
+        String columnsProduct [] = {PLACE_TABLE+"."+Site.PLACE_ID,PLACE_TABLE+"."+Site.PLACE_NAME, Site.PLACE_LATITUDE, Site.PLACE_LONGITUDE, Site.PLACE_DESCRIPTION};
+        String selection = PRODUCT_TABLE+"."+Producto.PRODUCT_NAME+"=?";
+        String selectionArgs[] = {productName};
+
+        Cursor c1 = db.query(table,columnsProduct,selection,selectionArgs,null,null,null);
+        ArrayList<Place> listPlaces = new ArrayList<>();
+        if(c1.moveToFirst()){
+            do{
+                Place currentPlace = new Place();
+                currentPlace.setId(c1.getInt(0));
+                currentPlace.setName(c1.getString(1));
+                currentPlace.setLatitude(c1.getDouble(2));
+                currentPlace.setLongitude(c1.getDouble(3));
+                currentPlace.setDescription(c1.getString(4));
+                listPlaces.add(currentPlace);
+            }while(c1.moveToNext());
+        }
+
+        //Close the cursor
+        if (!c1.isClosed()) {
+            c1.close();
+        }
+
+        return listPlaces;
+    }
+
+    public int getPrice(String productName, int placeId){
+
+        String table = PRODUCT_TABLE + " INNER JOIN " + PRODUCTXPLACE_TABLE + " ON " + PRODUCT_TABLE+"."+Producto.PRODUCT_ID +"="+PRODUCTXPLACE_TABLE+"."+ProductXPlace.PRODUCT_ID;
+
+        String columnsProduct [] = {PRODUCTXPLACE_TABLE+"."+ProductXPlace.PRICE};
+        String selection = PRODUCT_TABLE+"."+Producto.PRODUCT_NAME+"=? and "+PRODUCTXPLACE_TABLE+"."+ProductXPlace.PLACE_ID+"=?";
+        String selectionArgs[] = {productName, String.valueOf(placeId)};
+
+        Cursor c1 = db.query(table,columnsProduct,selection,selectionArgs,null,null,null);
+
+        if(c1.moveToFirst()){
+            return c1.getInt(0);
+        }
+
+        return 0;
+    }
+
+    public ArrayList<Integer> getPrices(){
+        String columns [] = {ProductXPlace.PRICE};
+        Cursor c1 =db.query(PRODUCTXPLACE_TABLE,columns,null,null,null,null,null);
+        ArrayList<Integer> listaPrecios = new ArrayList<>();
+        if(c1.moveToFirst()){
+            do{
+                listaPrecios.add(c1.getInt(0));
+            }while (c1.moveToNext());
+        }
+        //Close the cursor
+        if (!c1.isClosed()) {
+            c1.close();
+        }
+
+        return listaPrecios;
     }
 
 }

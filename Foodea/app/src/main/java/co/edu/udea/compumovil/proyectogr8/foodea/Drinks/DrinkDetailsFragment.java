@@ -32,7 +32,7 @@ public class DrinkDetailsFragment extends ListFragment {
     // The container Activity must implement this interface so the frag can deliver messages
     public interface onDrinkSelectedListener {
         /** Called by HeadlinesFragment when a list item is selected*/
-         void onDrinkSelected(String category);
+         void onDrinkSelected(String drink);
     }
 
     @Override

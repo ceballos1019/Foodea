@@ -47,9 +47,7 @@ public class FoodListFragment extends ListFragment {
         //get all foods categories
         foodCategories = dbHandler.getAllFoodCategories();
         dbHandler.closeConnection();
-        for(String c: foodCategories){
-            Log.d("TESTING",c);
-        }
+
         // Create an array adapter for the list view, using the data read from the database
         setListAdapter(new ArrayAdapter<>(getContext(),layout,foodCategories));
     }

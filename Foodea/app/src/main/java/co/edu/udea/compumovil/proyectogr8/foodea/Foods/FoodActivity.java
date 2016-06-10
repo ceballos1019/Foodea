@@ -1,5 +1,6 @@
 package co.edu.udea.compumovil.proyectogr8.foodea.Foods;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import co.edu.udea.compumovil.proyectogr8.foodea.Places.SpecificPlacesActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 public class FoodActivity extends AppCompatActivity implements FoodListFragment.OnFoodCategorySelected, FoodDetailsFragment.OnFoodSelectedListener{
@@ -19,7 +21,6 @@ public class FoodActivity extends AppCompatActivity implements FoodListFragment.
 
         //Set the initial fragment for the activity
         if(findViewById(R.id.fragment_food_container) != null){
-            Log.d("TESTING","ON FOOD ACTIIVTY");
             Fragment foodListFragment = new FoodListFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.fragment_food_container, foodListFragment);
@@ -56,9 +57,9 @@ public class FoodActivity extends AppCompatActivity implements FoodListFragment.
     }
 
     @Override
-    public void onFoodSelected(int position) {
-
-        Log.d("TAG","SIIIIIIIIIIIIIIIII");
-
+    public void onFoodSelected(String food) {
+        Intent mapIntent = new Intent(this, SpecificPlacesActivity.class);
+        mapIntent.putExtra(SpecificPlacesActivity.PRODUCT_NAME_KEY,food);
+        startActivity(mapIntent);
     }
 }

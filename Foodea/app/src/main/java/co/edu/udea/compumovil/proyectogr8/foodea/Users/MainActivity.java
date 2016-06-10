@@ -1,18 +1,16 @@
-package co.edu.udea.compumovil.proyectogr8.foodea;
+package co.edu.udea.compumovil.proyectogr8.foodea.Users;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
-import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
-import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
+import co.edu.udea.compumovil.proyectogr8.foodea.HomeActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.User;
+import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

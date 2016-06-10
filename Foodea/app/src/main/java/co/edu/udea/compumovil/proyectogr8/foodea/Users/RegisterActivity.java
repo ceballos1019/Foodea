@@ -1,4 +1,4 @@
-package co.edu.udea.compumovil.proyectogr8.foodea;
+package co.edu.udea.compumovil.proyectogr8.foodea.Users;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
+import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

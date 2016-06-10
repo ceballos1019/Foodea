@@ -1,10 +1,13 @@
 package co.edu.udea.compumovil.proyectogr8.foodea.Drinks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import co.edu.udea.compumovil.proyectogr8.foodea.Places.SpecificPlacesActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 public class DrinkActivity extends AppCompatActivity implements DrinkListFragment.OnDrinkCategorySelectedListener, DrinkDetailsFragment.onDrinkSelectedListener {
@@ -53,7 +56,9 @@ public class DrinkActivity extends AppCompatActivity implements DrinkListFragmen
     }
 
     @Override
-    public void onDrinkSelected(String p) {
-
+    public void onDrinkSelected(String drink) {
+        Intent mapIntent = new Intent(this, SpecificPlacesActivity.class);
+        mapIntent.putExtra(SpecificPlacesActivity.PRODUCT_NAME_KEY,drink);
+        startActivity(mapIntent);
     }
 }

@@ -24,8 +24,8 @@ import co.edu.udea.compumovil.proyectogr8.foodea.GCM.RegistrationService;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.User;
-import co.edu.udea.compumovil.proyectogr8.foodea.Places.MapsActivity;
-import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.Places.AllPlacesActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.Users.MainActivity;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -55,7 +55,7 @@ public class HomeActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         }
 
-        Intent i = new Intent(this, RegistrationService.class);
+        /*Intent i = new Intent(this, RegistrationService.class);
         startService(i);
         if(savedInstanceState!=null) {
             String message = savedInstanceState.getString("msg");
@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity
         }else {
             Log.d("MENSAJE","No llego el mensaje");
         }
-
+*/
         dbHandler = new DBAdapter(getApplicationContext());
         dbHandler.openConnection();
         //Check if the database has information or if it need to be initialized
@@ -75,8 +75,12 @@ public class HomeActivity extends AppCompatActivity
             new InitializeDBTask().execute();
         }else{
             /*for(Product p:dbHandler.getAllProducts()){
-                Log.d("TESTING",p.getName());
-            }*/
+                Log.d("TESTING PRODUCTS",p.getName());
+            }
+            for(Place pl : dbHandler.getAllPlaces()){
+                Log.d("TESTING PLACES", pl.getName());
+            }
+            */
             dbHandler.closeConnection();
         }
 
@@ -131,7 +135,7 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.nav_places:
-                intent = new Intent(this, PlaceActivity.class);
+                intent = new Intent(this, AllPlacesActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_help:
@@ -178,20 +182,18 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.ib_place:
-                intent = new Intent(this, MapsActivity.class);
+                intent = new Intent(this, AllPlacesActivity.class);
                 startActivity(intent);
                 break;
             case R.id.ib_settings:
                 Toast.makeText(getApplicationContext(), "Seleccionó configuración", Toast.LENGTH_SHORT).show();
                 DBAdapter dbAdapter = new DBAdapter(getApplicationContext());
                 dbAdapter.openConnection();
-                ArrayList<Place> listProducts = dbAdapter.getAllPlaces();
-                boolean isEmpty = dbAdapter.isEmpty();
+                ArrayList<Place> listProducts = dbAdapter.getPlacesByProduct("Milo");
                 dbAdapter.closeConnection();
                 for(Place p:listProducts){
-                    Log.d("Checking", String.valueOf(p.getId())+" - "+ p.getName());
+                    Log.d("Checking", p.getName());
                 }
-                Log.d("Checking", String.valueOf(isEmpty));
                 break;
             default:
                 break;
@@ -218,12 +220,13 @@ public class HomeActivity extends AppCompatActivity
         protected Void doInBackground(Void... params) {
             initializeProductsDB();
             initializePlacesDB();
+            initializeProductxPlacesDB();
             dbHandler.closeConnection();
             return null;
         }
     }
 
-    //Method for initializing the database
+    //Methods for initializing the database
     public void initializeProductsDB(){
         Log.d("onInitializing","INITIALIZING DATABSE...");
 
@@ -383,5 +386,223 @@ public class HomeActivity extends AppCompatActivity
         dbHandler.insertPlace(new Place("Sazón y Parrilla",6.268186,-75.568391,"Debajo de la libreria"));
         dbHandler.insertPlace(new Place("Burbuja",6.268185,-75.567491,""));
 
+    }
+
+    public void initializeProductxPlacesDB(){
+        dbHandler.insertProductxPlace(1,1,6500);
+        dbHandler.insertProductxPlace(1,2,5800);
+        dbHandler.insertProductxPlace(1,3,2600);
+        dbHandler.insertProductxPlace(1,4,3100);
+        dbHandler.insertProductxPlace(1,5,1400);
+        dbHandler.insertProductxPlace(1,6,800);
+        dbHandler.insertProductxPlace(1,7,1000);
+        dbHandler.insertProductxPlace(1,8,1000);
+        dbHandler.insertProductxPlace(1,9,1500);
+        dbHandler.insertProductxPlace(1,10,2100);
+        dbHandler.insertProductxPlace(1,11,1200);
+        dbHandler.insertProductxPlace(1,12,1300);
+        dbHandler.insertProductxPlace(1,13,2100);
+        dbHandler.insertProductxPlace(1,14,2000);
+        dbHandler.insertProductxPlace(1,15,1900);
+        dbHandler.insertProductxPlace(1,104,600);
+        dbHandler.insertProductxPlace(1,119,1300);
+        dbHandler.insertProductxPlace(1,142,1000);
+        dbHandler.insertProductxPlace(1,108,500);
+        dbHandler.insertProductxPlace(1,105,1200);
+        dbHandler.insertProductxPlace(1,110,4500);
+        dbHandler.insertProductxPlace(1,109,2000);
+        dbHandler.insertProductxPlace(1,111,1600);
+        dbHandler.insertProductxPlace(1,112,1600);
+        dbHandler.insertProductxPlace(1,116,1000);
+        dbHandler.insertProductxPlace(1,113,1600);
+        dbHandler.insertProductxPlace(1,120,1500);
+        dbHandler.insertProductxPlace(2,16,2300);
+        dbHandler.insertProductxPlace(2,17,3300);
+        dbHandler.insertProductxPlace(2,18,2700);
+        dbHandler.insertProductxPlace(2,19,2600);
+        dbHandler.insertProductxPlace(2,20,3100);
+        dbHandler.insertProductxPlace(2,21,3500);
+        dbHandler.insertProductxPlace(2,22,1900);
+        dbHandler.insertProductxPlace(2,23,2900);
+        dbHandler.insertProductxPlace(2,24,5600);
+        dbHandler.insertProductxPlace(2,25,3000);
+        dbHandler.insertProductxPlace(2,26,3800);
+        dbHandler.insertProductxPlace(2,27,3400);
+        dbHandler.insertProductxPlace(2,28,3600);
+        dbHandler.insertProductxPlace(2,14,3500);
+        dbHandler.insertProductxPlace(2,29,3000);
+        dbHandler.insertProductxPlace(2,10,2300);
+        dbHandler.insertProductxPlace(2,30,4500);
+        dbHandler.insertProductxPlace(2,31,2800);
+        dbHandler.insertProductxPlace(2,32,3700);
+        dbHandler.insertProductxPlace(2,33,4300);
+        dbHandler.insertProductxPlace(2,34,39000);
+        dbHandler.insertProductxPlace(2,35,6500);
+        dbHandler.insertProductxPlace(2,36,2500);
+        dbHandler.insertProductxPlace(2,37,5600);
+        dbHandler.insertProductxPlace(2,104,600);
+        dbHandler.insertProductxPlace(2,121,1000);
+        dbHandler.insertProductxPlace(2,122,1500);
+        dbHandler.insertProductxPlace(2,123,1300);
+        dbHandler.insertProductxPlace(2,105,1200);
+        dbHandler.insertProductxPlace(2,124,1600);
+        dbHandler.insertProductxPlace(2,125,2300);
+        dbHandler.insertProductxPlace(2,126,2800);
+        dbHandler.insertProductxPlace(2,127,1900);
+        dbHandler.insertProductxPlace(2,106,1800);
+        dbHandler.insertProductxPlace(2,107,2200);
+        dbHandler.insertProductxPlace(2,142,1200);
+        dbHandler.insertProductxPlace(2,128,2900);
+        dbHandler.insertProductxPlace(2,129,3300);
+        dbHandler.insertProductxPlace(2,130,4200);
+        dbHandler.insertProductxPlace(2,131,2500);
+        dbHandler.insertProductxPlace(2,132,800);
+        dbHandler.insertProductxPlace(2,133,4600);
+        dbHandler.insertProductxPlace(2,134,3100);
+        dbHandler.insertProductxPlace(2,103,3100);
+        dbHandler.insertProductxPlace(2,135,2300);
+        dbHandler.insertProductxPlace(2,119,1300);
+        dbHandler.insertProductxPlace(2,136,1500);
+        dbHandler.insertProductxPlace(2,113,2400);
+        dbHandler.insertProductxPlace(3,77,6500);
+        dbHandler.insertProductxPlace(3,78,6500);
+        dbHandler.insertProductxPlace(3,79,5500);
+        dbHandler.insertProductxPlace(3,80,6000);
+        dbHandler.insertProductxPlace(3,81,6500);
+        dbHandler.insertProductxPlace(3,82,2600);
+        dbHandler.insertProductxPlace(3,83,3600);
+        dbHandler.insertProductxPlace(3,84,2900);
+        dbHandler.insertProductxPlace(3,85,3000);
+        dbHandler.insertProductxPlace(3,86,2600);
+        dbHandler.insertProductxPlace(3,87,2800);
+        dbHandler.insertProductxPlace(3,88,2900);
+        dbHandler.insertProductxPlace(3,89,3700);
+        dbHandler.insertProductxPlace(3,90,5400);
+        dbHandler.insertProductxPlace(3,91,3900);
+        dbHandler.insertProductxPlace(3,92,3500);
+        dbHandler.insertProductxPlace(3,93,5000);
+        dbHandler.insertProductxPlace(3,94,5400);
+        dbHandler.insertProductxPlace(3,95,4900);
+        dbHandler.insertProductxPlace(3,96,3900);
+        dbHandler.insertProductxPlace(3,97,3500);
+        dbHandler.insertProductxPlace(3,98,2200);
+        dbHandler.insertProductxPlace(3,99,2700);
+        dbHandler.insertProductxPlace(3,34,2700);
+        dbHandler.insertProductxPlace(3,100,1700);
+        dbHandler.insertProductxPlace(3,129,2500);
+        dbHandler.insertProductxPlace(3,146,2200);
+        dbHandler.insertProductxPlace(4,11,1200);
+        dbHandler.insertProductxPlace(4,14,1700);
+        dbHandler.insertProductxPlace(4,3,2100);
+        dbHandler.insertProductxPlace(4,44,1700);
+        dbHandler.insertProductxPlace(4,1,7500);
+        dbHandler.insertProductxPlace(4,45,2800);
+        dbHandler.insertProductxPlace(4,46,5600);
+        dbHandler.insertProductxPlace(4,47,3500);
+        dbHandler.insertProductxPlace(4,48,4700);
+        dbHandler.insertProductxPlace(4,49,3500);
+        dbHandler.insertProductxPlace(4,100,1200);
+        dbHandler.insertProductxPlace(4,101,700);
+        dbHandler.insertProductxPlace(4,102,1000);
+        dbHandler.insertProductxPlace(4,103,2300);
+        dbHandler.insertProductxPlace(5,15,2400);
+        dbHandler.insertProductxPlace(5,60,2400);
+        dbHandler.insertProductxPlace(5,1,7200);
+        dbHandler.insertProductxPlace(5,100,1200);
+        dbHandler.insertProductxPlace(5,101,700);
+        dbHandler.insertProductxPlace(5,102,1000);
+        dbHandler.insertProductxPlace(5,105,1000);
+        dbHandler.insertProductxPlace(5,106,1000);
+        dbHandler.insertProductxPlace(5,132,1000);
+        dbHandler.insertProductxPlace(5,104,500);
+        dbHandler.insertProductxPlace(5,107,1500);
+        dbHandler.insertProductxPlace(6,1,5400);
+        dbHandler.insertProductxPlace(6,2,4800);
+        dbHandler.insertProductxPlace(6,64,600);
+        dbHandler.insertProductxPlace(6,65,1100);
+        dbHandler.insertProductxPlace(6,39,1300);
+        dbHandler.insertProductxPlace(6,38,1400);
+        dbHandler.insertProductxPlace(6,29,1000);
+        dbHandler.insertProductxPlace(6,10,1500);
+        dbHandler.insertProductxPlace(6,13,1700);
+        dbHandler.insertProductxPlace(6,66,1400);
+        dbHandler.insertProductxPlace(6,67,1400);
+        dbHandler.insertProductxPlace(6,14,1400);
+        dbHandler.insertProductxPlace(6,145,1400);
+        dbHandler.insertProductxPlace(6,40,1400);
+        dbHandler.insertProductxPlace(6,69,1350);
+        dbHandler.insertProductxPlace(6,70,1200);
+        dbHandler.insertProductxPlace(6,11,1100);
+        dbHandler.insertProductxPlace(6,71,1000);
+        dbHandler.insertProductxPlace(6,72,1700);
+        dbHandler.insertProductxPlace(6,73,1200);
+        dbHandler.insertProductxPlace(6,74,400);
+        dbHandler.insertProductxPlace(6,75,1100);
+        dbHandler.insertProductxPlace(6,76,1500);
+        dbHandler.insertProductxPlace(6,104,500);
+        dbHandler.insertProductxPlace(6,123,600);
+        dbHandler.insertProductxPlace(6,107,1500);
+        dbHandler.insertProductxPlace(6,142,800);
+        dbHandler.insertProductxPlace(6,105,1100);
+        dbHandler.insertProductxPlace(6,108,400);
+        dbHandler.insertProductxPlace(6,102,700);
+        dbHandler.insertProductxPlace(6,137,1000);
+        dbHandler.insertProductxPlace(6,106,1200);
+        dbHandler.insertProductxPlace(6,138,1100);
+        dbHandler.insertProductxPlace(6,113,1600);
+        dbHandler.insertProductxPlace(6,139,1000);
+        dbHandler.insertProductxPlace(6,140,500);
+        dbHandler.insertProductxPlace(6,141,1000);
+        dbHandler.insertProductxPlace(6,114,2300);
+        dbHandler.insertProductxPlace(6,14,1600);
+        dbHandler.insertProductxPlace(7,1,5400);
+        dbHandler.insertProductxPlace(7,2,4800);
+        dbHandler.insertProductxPlace(7,5,1150);
+        dbHandler.insertProductxPlace(7,6,600);
+        dbHandler.insertProductxPlace(7,8,700);
+        dbHandler.insertProductxPlace(7,9,1400);
+        dbHandler.insertProductxPlace(7,10,1400);
+        dbHandler.insertProductxPlace(7,11,1100);
+        dbHandler.insertProductxPlace(7,12,1000);
+        dbHandler.insertProductxPlace(7,104,500);
+        dbHandler.insertProductxPlace(7,119,1000);
+        dbHandler.insertProductxPlace(7,142,800);
+        dbHandler.insertProductxPlace(7,108,400);
+        dbHandler.insertProductxPlace(7,105,1000);
+        dbHandler.insertProductxPlace(8,1,6500);
+        dbHandler.insertProductxPlace(8,10,1700);
+        dbHandler.insertProductxPlace(8,38,1500);
+        dbHandler.insertProductxPlace(8,39,1500);
+        dbHandler.insertProductxPlace(8,40,1900);
+        dbHandler.insertProductxPlace(8,13,1900);
+        dbHandler.insertProductxPlace(8,41,2300);
+        dbHandler.insertProductxPlace(8,42,1600);
+        dbHandler.insertProductxPlace(8,43,2400);
+        dbHandler.insertProductxPlace(8,50,2300);
+        dbHandler.insertProductxPlace(8,51,1800);
+        dbHandler.insertProductxPlace(8,52,3800);
+        dbHandler.insertProductxPlace(8,53,3200);
+        dbHandler.insertProductxPlace(8,54,5000);
+        dbHandler.insertProductxPlace(8,55,3400);
+        dbHandler.insertProductxPlace(8,56,2000);
+        dbHandler.insertProductxPlace(8,57,3300);
+        dbHandler.insertProductxPlace(8,58,3300);
+        dbHandler.insertProductxPlace(8,59,7600);
+        dbHandler.insertProductxPlace(8,110,4500);
+        dbHandler.insertProductxPlace(8,109,2400);
+        dbHandler.insertProductxPlace(8,111,2000);
+        dbHandler.insertProductxPlace(8,112,1400);
+        dbHandler.insertProductxPlace(8,113,1500);
+        dbHandler.insertProductxPlace(8,114,2600);
+        dbHandler.insertProductxPlace(8,115,1700);
+        dbHandler.insertProductxPlace(8,117,2000);
+        dbHandler.insertProductxPlace(8,118,1500);
+        dbHandler.insertProductxPlace(8,116,1000);
+        dbHandler.insertProductxPlace(9,104,600);
+        dbHandler.insertProductxPlace(9,105,1100);
+        dbHandler.insertProductxPlace(9,106,900);
+        dbHandler.insertProductxPlace(9,107,1600);
+        dbHandler.insertProductxPlace(9,126,1400);
+        dbHandler.insertProductxPlace(9,108,700);
     }
 }
