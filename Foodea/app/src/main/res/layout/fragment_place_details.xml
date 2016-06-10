@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="co.edu.udea.compumovil.proyectogr8.foodea.PlaceDetailsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+   <ImageView
+        android:id="@+id/place_image"
+        android:layout_width="match_parent"
+        android:layout_height="300px"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/place"/>
+
+    <TextView
+        android:id="@+id/place_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:typeface="monospace"
+        android:layout_below="@id/place_image"
+        android:textSize="20dp"/>
+    <RatingBar
+        android:id="@+id/rating_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:theme="@style/AppTheme"
+        android:layout_below="@+id/place_details"/>
+
+</RelativeLayout>

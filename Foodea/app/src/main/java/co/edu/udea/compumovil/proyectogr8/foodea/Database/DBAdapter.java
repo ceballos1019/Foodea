@@ -527,4 +527,25 @@ public class DBAdapter {
         return listaPrecios;
     }
 
+    public Place getProduct(int idPlace){
+
+        String columns [] = {Site.PLACE_ID, Site.PLACE_NAME, Site.PLACE_LATITUDE, Site.PLACE_LONGITUDE,Site.PLACE_DESCRIPTION};
+        String selection = Site.PLACE_ID + "=?";
+        String selectionArgs[] = {String.valueOf(idPlace)};
+
+        Cursor c1 = db.query(PLACE_TABLE,columns,selection,selectionArgs,null,null,null);
+
+        Place place = null;
+
+        if(c1.moveToFirst()){
+            place = new Place();
+            place.setId(c1.getInt(0));
+            place.setName(c1.getString(1));
+            place.setLatitude(c1.getDouble(2));
+            place.setLongitude(c1.getDouble(3));
+            place.setDescription(c1.getString(4));
+        }
+        return place;
+    }
+
 }

@@ -186,15 +186,8 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.ib_settings:
-                Toast.makeText(getApplicationContext(), "Seleccionó configuración", Toast.LENGTH_SHORT).show();
-                DBAdapter dbAdapter = new DBAdapter(getApplicationContext());
-                dbAdapter.openConnection();
-                ArrayList<Place> listProducts = dbAdapter.getPlacesByProduct("Milo");
-                dbAdapter.closeConnection();
-                for(Place p:listProducts){
-                    Log.d("Checking", p.getName());
-                }
-                break;
+                intent = new Intent(this,PlaceActivity.class);
+                startActivity(intent);
             default:
                 break;
 

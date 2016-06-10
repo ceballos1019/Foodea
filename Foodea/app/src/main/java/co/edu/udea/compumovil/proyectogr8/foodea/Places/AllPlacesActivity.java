@@ -1,6 +1,7 @@
 package co.edu.udea.compumovil.proyectogr8.foodea.Places;
 
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,12 +19,14 @@ import java.util.ArrayList;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
+import co.edu.udea.compumovil.proyectogr8.foodea.PlaceActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 public class AllPlacesActivity extends FragmentActivity implements OnMapReadyCallback,PlaceDialogFragment.NoticeDialogListener {
 
     private GoogleMap mMap;
     private ArrayList<Place> places;
+    private Place placeSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +88,6 @@ public class AllPlacesActivity extends FragmentActivity implements OnMapReadyCal
 
 
     public void showDetailDialog(String placeTitle) {
-        Place placeSelected = null;
-
         //Search for the place selected
         for(Place place: places){
             if(place.getName().equals(placeTitle)){
@@ -107,7 +108,10 @@ public class AllPlacesActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         // User touched the dialog's positive button
-        Log.d("TESTING","VIENDO DETALLES...");
+        Intent placeIntent = new Intent();
+        placeIntent.putExtra(PlaceActivity.PRODUCT_KEY,placeSelected.getId());
+        startActivity(placeIntent);
+
     }
 
     @Override
