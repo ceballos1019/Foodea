@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 public class ProductActivity extends AppCompatActivity {
 
-    private TextView tvPlaceName, tvPlaceDetails, tvProductName, tvProductPrice;
+    private TextView tvPlaceDetails, tvProductName, tvProductPrice;
     private String placeName, placeDetails, productName;
     private RatingBar ratingBar;
     private int productPrice;

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
-import co.edu.udea.compumovil.proyectogr8.foodea.PlaceActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 public class AllPlacesActivity extends FragmentActivity implements OnMapReadyCallback,PlaceDialogFragment.NoticeDialogListener {
@@ -108,7 +107,7 @@ public class AllPlacesActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         // User touched the dialog's positive button
-        Intent placeIntent = new Intent();
+        Intent placeIntent = new Intent(this,PlaceActivity.class);
         placeIntent.putExtra(PlaceActivity.PRODUCT_KEY,placeSelected.getId());
         startActivity(placeIntent);
 

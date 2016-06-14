@@ -25,7 +25,7 @@ public class DBAdapter {
     private static final String TAG = DBHandler.class.getSimpleName();
 
     //Información de la base de datos
-    public static final int DATABASE_VERSION = 10;
+    public static final int DATABASE_VERSION = 12;
     public static final String DATABASE_NAME = "Foodea.db";
     public static final String STRING_TYPE = "text";
     public static final String INT_TYPE = "integer";
@@ -546,6 +546,62 @@ public class DBAdapter {
             place.setDescription(c1.getString(4));
         }
         return place;
+    }
+
+    public ArrayList<Product> getProductsByPlace(int idPlace) {
+
+        String table = PRODUCT_TABLE + " INNER JOIN " + PRODUCTXPLACE_TABLE + " ON " + Producto.PRODUCT_ID + "="+ProductXPlace.PRODUCT_ID;
+        String columns [] = {Producto.PRODUCT_ID,Producto.PRODUCT_NAME, Producto.PRODUCT_TYPE,Producto.PRODUCT_CATEGORY};
+        String selection = ProductXPlace.PLACE_ID+"=?";
+        String selectionArgs [] = {String.valueOf(idPlace)};
+
+        Cursor c1 = db.query(table, columns,selection, selectionArgs, null,null,null);
+
+        ArrayList<Product> products = new ArrayList<>();
+        Product currentProduct = null;
+
+        if(c1.moveToFirst()){
+            do{
+                int idProduct = c1.getInt(0);
+                String productName = c1.getString(1);
+                String productType = c1.getString(2);
+                String productCategory = c1.getString(3);
+                currentProduct = new Product(idProduct, productName, productType,productCategory);
+                products.add(currentProduct);
+            }while(c1.moveToNext());
+        }
+
+        //Close the cursor
+        if (!c1.isClosed()) {
+            c1.close();
+        }
+
+        return products;
+    }
+
+    public ArrayList<String> getCategoriesByPlace(int idPlace){
+
+        String table = PRODUCT_TABLE + " INNER JOIN " + PRODUCTXPLACE_TABLE + " ON " + Producto.PRODUCT_ID + "="+ProductXPlace.PRODUCT_ID;
+        String columns [] = {Producto.PRODUCT_CATEGORY};
+        String selection = ProductXPlace.PLACE_ID+"=?";
+        String selectionArgs [] = {String.valueOf(idPlace)};
+
+        Cursor c1 = db.query(true,table, columns,selection, selectionArgs, null,null,null,null);
+
+        ArrayList<String> categories = new ArrayList<>();
+
+        if(c1.moveToFirst()){
+            do{
+               categories.add(c1.getString(0));
+            }while(c1.moveToNext());
+        }
+
+        //Close the cursor
+        if (!c1.isClosed()) {
+            c1.close();
+        }
+
+        return categories;
     }
 
 }

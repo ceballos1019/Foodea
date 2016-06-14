@@ -83,7 +83,9 @@
             android:name=".Places.SpecificPlacesActivity"
             android:label="@string/title_activity_specific_places" />
         <activity android:name=".ProductActivity" />
-        <activity android:name=".PlaceActivity"></activity>
+        <activity
+            android:name=".Places.PlaceActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

@@ -15,16 +15,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
 import co.edu.udea.compumovil.proyectogr8.foodea.Drinks.DrinkActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.Foods.FoodActivity;
-import co.edu.udea.compumovil.proyectogr8.foodea.GCM.RegistrationService;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.User;
 import co.edu.udea.compumovil.proyectogr8.foodea.Places.AllPlacesActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.Users.MainActivity;
 
 public class HomeActivity extends AppCompatActivity
@@ -74,13 +72,14 @@ public class HomeActivity extends AppCompatActivity
         if(isEmpty){
             new InitializeDBTask().execute();
         }else{
+            Log.d("TESTING","hay datos");
             /*for(Product p:dbHandler.getAllProducts()){
                 Log.d("TESTING PRODUCTS",p.getName());
-            }
+            }*/
             for(Place pl : dbHandler.getAllPlaces()){
                 Log.d("TESTING PLACES", pl.getName());
             }
-            */
+
             dbHandler.closeConnection();
         }
 
@@ -378,6 +377,7 @@ public class HomeActivity extends AppCompatActivity
         dbHandler.insertPlace(new Place("Restaurante Cafeteria Facultad de Artes",6.267921,-75.569416,"Facultad de Artes"));
         dbHandler.insertPlace(new Place("Sazón y Parrilla",6.268186,-75.568391,"Debajo de la libreria"));
         dbHandler.insertPlace(new Place("Burbuja",6.268185,-75.567491,""));
+        Log.d("TESTING","PLACES READY");
 
     }
 
@@ -597,5 +597,6 @@ public class HomeActivity extends AppCompatActivity
         dbHandler.insertProductxPlace(9,107,1600);
         dbHandler.insertProductxPlace(9,126,1400);
         dbHandler.insertProductxPlace(9,108,700);
+        Log.d("TESTING","PLACESXPRODUCT READY");
     }
 }

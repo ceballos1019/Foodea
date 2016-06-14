@@ -1,26 +1,33 @@
-package co.edu.udea.compumovil.proyectogr8.foodea;
+package co.edu.udea.compumovil.proyectogr8.foodea.Places;
 
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
-import co.edu.udea.compumovil.proyectogr8.foodea.Foods.FoodListFragment;
+import co.edu.udea.compumovil.proyectogr8.foodea.Drinks.DrinkListFragment;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
+import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
+import co.edu.udea.compumovil.proyectogr8.foodea.PlaceCategoriesFragment;
+import co.edu.udea.compumovil.proyectogr8.foodea.R;
+import co.edu.udea.compumovil.proyectogr8.foodea.TabsPagerAdapter;
 
-public class PlaceActivity extends AppCompatActivity implements ActionBar.TabListener {
+public class PlaceActivity extends ActionBarActivity implements ActionBar.TabListener, PlaceProductsFragment.OnProductSelectedListener, PlaceCategoriesFragment.OnProductCategorySelectedListener{
 
     public static final String PRODUCT_KEY = "Product_Key";
+    public static final String PLACE_DETAILS_KEY = "Place_Details";
+    public static final String PLACE_PRODUCTS_KEY = "Place_Products";
+    public static final String PLACE_CATEGORIES_KEY = "Place_Categories";
 
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
     Place place;
 
-    private String[] tabs = { "Detalles", "Productos"};
+    private String[] tabs = { PlaceDetailsFragment.TAB_TITLE, PlaceProductsFragment.TAB_TITLE,PlaceCategoriesFragment.TAB_TITLE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,4 +97,13 @@ public class PlaceActivity extends AppCompatActivity implements ActionBar.TabLis
 
     }
 
+    @Override
+    public void onProductSelected(Product product) {
+        Log.d("TESTING", product.getName());
     }
+
+    @Override
+    public void onProductCategorySelected(String categories) {
+        Log.d("TESTING", categories);
+    }
+}
