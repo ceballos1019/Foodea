@@ -55,7 +55,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
                 args.putInt(PlaceActivity.PLACE_CATEGORIES_KEY,place.getId());
                 fragmentSelected.setArguments(args);
                 return fragmentSelected;
-        }
+                    }
         return null;
     }
 

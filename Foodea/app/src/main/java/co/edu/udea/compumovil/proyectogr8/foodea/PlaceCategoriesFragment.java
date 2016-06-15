@@ -2,6 +2,7 @@ package co.edu.udea.compumovil.proyectogr8.foodea;
 
 
 import android.app.Activity;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -103,4 +104,12 @@ public class PlaceCategoriesFragment extends ListFragment {
 
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getListView().setBackgroundResource(R.drawable.gradient_bg);
+        int[] colors = {0, 0xFFB0BEC5, 0}; // red for the example
+        getListView().setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
+        getListView().setDividerHeight(5);
+    }
 }

@@ -2,6 +2,7 @@ package co.edu.udea.compumovil.proyectogr8.foodea.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,10 +13,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.HashMap;
+import java.util.Objects;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.User;
+import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceProductsFragment;
 
 
 /**
@@ -548,26 +552,30 @@ public class DBAdapter {
         return place;
     }
 
-    public ArrayList<Product> getProductsByPlace(int idPlace) {
+    public ArrayList<HashMap<String,Object>> getProductsByPlace(int idPlace) {
 
         String table = PRODUCT_TABLE + " INNER JOIN " + PRODUCTXPLACE_TABLE + " ON " + Producto.PRODUCT_ID + "="+ProductXPlace.PRODUCT_ID;
-        String columns [] = {Producto.PRODUCT_ID,Producto.PRODUCT_NAME, Producto.PRODUCT_TYPE,Producto.PRODUCT_CATEGORY};
+        String columns [] = {Producto.PRODUCT_ID,Producto.PRODUCT_NAME, Producto.PRODUCT_TYPE,Producto.PRODUCT_CATEGORY,ProductXPlace.PRICE};
         String selection = ProductXPlace.PLACE_ID+"=?";
         String selectionArgs [] = {String.valueOf(idPlace)};
 
         Cursor c1 = db.query(table, columns,selection, selectionArgs, null,null,null);
 
-        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<HashMap<String,Object>> products = new ArrayList<>();
         Product currentProduct = null;
 
         if(c1.moveToFirst()){
             do{
+                HashMap<String,Object> map = new HashMap<>();
                 int idProduct = c1.getInt(0);
                 String productName = c1.getString(1);
                 String productType = c1.getString(2);
                 String productCategory = c1.getString(3);
                 currentProduct = new Product(idProduct, productName, productType,productCategory);
-                products.add(currentProduct);
+                int price = c1.getInt(4);
+                map.put(PlaceProductsFragment.KEY_PRODUCT,currentProduct);
+                map.put(PlaceProductsFragment.KEY_PRODUCT_PRICE,price);
+                products.add(map);
             }while(c1.moveToNext());
         }
 

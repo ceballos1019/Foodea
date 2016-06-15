@@ -3,6 +3,7 @@ package co.edu.udea.compumovil.proyectogr8.foodea.Places;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +26,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
+import co.edu.udea.compumovil.proyectogr8.foodea.CustomListAdapter;
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
@@ -36,15 +41,20 @@ import co.edu.udea.compumovil.proyectogr8.foodea.R;
 public class PlaceProductsFragment extends ListFragment {
 
     public static final String TAB_TITLE = "Productos";
+    public static final String KEY_PRODUCT_NAME = "Product_Name";
+    public static final String KEY_PRODUCT_TYPE = "Product_Type";
+    public static final String KEY_PRODUCT = "Product";
+    public static final String KEY_PRODUCT_PRICE = "Product_Price";
 
-    private ArrayAdapter adapter;
+    //private ArrayAdapter adapter;
+    private  CustomListAdapter adapter;
     private MenuItem mSearchAction;
     private boolean mSearchOpened;
     private String mSearchQuery;
     private EditText mSearchEt;
-    private TextView tvEmptyMessage;
     OnProductSelectedListener mCallback;
-    private ArrayList<Product> products;
+    private ArrayList<HashMap<String,Object>> products;
+    private ArrayList<HashMap<String,String>> productsAdapter;
 
 
     // The container Activity must implement this interface so the frag can deliver messages
@@ -77,20 +87,29 @@ public class PlaceProductsFragment extends ListFragment {
         //Close the connection with the database
         dbHandler.closeConnection();
 
-        //Create the array with product names to show on the list view
-        ArrayList<String> productNames = new ArrayList<>();
-        for(Product product: products){
-            productNames.add(product.getName());
+        //Create the array with product names and produc types to show on the list view
+        productsAdapter = new ArrayList<>();
+
+        //Set the data
+        for(HashMap<String,Object> productInformation: products){
+            HashMap<String,String> map = new HashMap<>();
+            Product product = (Product) productInformation.get(KEY_PRODUCT);
+            String priceString = productInformation.get(KEY_PRODUCT_PRICE).toString();
+            map.put(KEY_PRODUCT_NAME, product.getName());
+            map.put(KEY_PRODUCT_TYPE, product.getType());
+            map.put(KEY_PRODUCT_PRICE,priceString);
+            productsAdapter.add(map);
         }
 
-
-        //Create and set the adapter for the list view
-        adapter = new ArrayAdapter<>(getContext(),layout,productNames);
+        //Create the custom adapter and set it to the list view
+        adapter = new CustomListAdapter(getActivity(),productsAdapter);
         setListAdapter(adapter);
 
+        //Initialize some variables
         mSearchOpened = false;
         mSearchQuery = "";
 
+        //Allow the actions buttons to be showed in this fragment
         setHasOptionsMenu(true);
     }
 
@@ -98,6 +117,9 @@ public class PlaceProductsFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setEmptyText("No se encontraron productos");
+        int[] colors = {0, 0xFFB0BEC5, 0}; // red for the example
+        getListView().setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
+        getListView().setDividerHeight(5);
     }
 
     @Override
@@ -179,6 +201,7 @@ public class PlaceProductsFragment extends ListFragment {
     private void closeSearchBar() {
 
         View v = getActivity().getCurrentFocus();
+        mSearchEt.setText("");
         //Hide the soft keyboard
         if(v!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -202,12 +225,12 @@ public class PlaceProductsFragment extends ListFragment {
 
         @Override
         public void onTextChanged(CharSequence c, int i, int i2, int i3) {
-
+            Log.d("TESTING",mSearchEt.getText().toString());
+            adapter.getFilter().filter(mSearchEt.getText().toString());
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
-            adapter.getFilter().filter(mSearchEt.getText().toString());
         }
 
     }
@@ -215,7 +238,7 @@ public class PlaceProductsFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Notify the parent activity of selected item
-        mCallback.onProductSelected(products.get(position));
+        mCallback.onProductSelected((Product)products.get(position).get(KEY_PRODUCT));
         // Set the item as checked to be highlighted when in two-pane layout
         getListView().setItemChecked(position, true);
     }
