@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
 
-import co.edu.udea.compumovil.proyectogr8.foodea.Places.SpecificPlacesActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.Maps.SpecificPlacesActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 public class FoodActivity extends AppCompatActivity implements FoodListFragment.OnFoodCategorySelected, FoodDetailsFragment.OnFoodSelectedListener{

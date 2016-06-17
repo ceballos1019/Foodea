@@ -1,4 +1,4 @@
-package co.edu.udea.compumovil.proyectogr8.foodea;
+package co.edu.udea.compumovil.proyectogr8.foodea.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceProductsFragment;
+import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 /**
  * Created by user on 15/06/2016.

@@ -76,10 +76,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Places.AllPlacesActivity"
+            android:name=".Maps.AllPlacesActivity"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".Places.SpecificPlacesActivity"
+            android:name=".Maps.SpecificPlacesActivity"
             android:label="@string/title_activity_specific_places" />
         <activity android:name=".ProductActivity" />
         <activity

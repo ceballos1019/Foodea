@@ -1,16 +1,20 @@
-package co.edu.udea.compumovil.proyectogr8.foodea;
+package co.edu.udea.compumovil.proyectogr8.foodea.Places;
 
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.text.Spannable;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -27,7 +31,7 @@ public class PlaceCategoriesFragment extends ListFragment {
 
     OnProductCategorySelectedListener mCallback;
     ArrayList<String> categories;
-
+    ArrayAdapter adapter;
 
     // The container Activity must implement this interface so the frag can deliver messages
     public interface OnProductCategorySelectedListener {
@@ -63,9 +67,12 @@ public class PlaceCategoriesFragment extends ListFragment {
             Log.d("TESTING", c);
         }
 
+        adapter = new ArrayAdapter<>(getContext(),layout,categories);
+
+
 
         // Create an array adapter for the list view, using the data read from the database
-        setListAdapter(new ArrayAdapter<>(getContext(),layout,categories));
+        setListAdapter(adapter);
     }
 
     @Override
@@ -107,7 +114,7 @@ public class PlaceCategoriesFragment extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getListView().setBackgroundResource(R.drawable.gradient_bg);
+
         int[] colors = {0, 0xFFB0BEC5, 0}; // red for the example
         getListView().setDivider(new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors));
         getListView().setDividerHeight(5);

@@ -1,5 +1,6 @@
 package co.edu.udea.compumovil.proyectogr8.foodea.Places;
 
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -7,13 +8,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
+import java.lang.reflect.Method;
+
+import co.edu.udea.compumovil.proyectogr8.foodea.Adapters.TabsPagerAdapter;
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
-import co.edu.udea.compumovil.proyectogr8.foodea.Drinks.DrinkListFragment;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
-import co.edu.udea.compumovil.proyectogr8.foodea.PlaceCategoriesFragment;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
-import co.edu.udea.compumovil.proyectogr8.foodea.TabsPagerAdapter;
 
 public class PlaceActivity extends ActionBarActivity implements ActionBar.TabListener, PlaceProductsFragment.OnProductSelectedListener, PlaceCategoriesFragment.OnProductCategorySelectedListener{
 
@@ -106,4 +107,5 @@ public class PlaceActivity extends ActionBarActivity implements ActionBar.TabLis
     public void onProductCategorySelected(String categories) {
         Log.d("TESTING", categories);
     }
+
 }

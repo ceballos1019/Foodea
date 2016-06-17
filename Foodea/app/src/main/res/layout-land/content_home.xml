@@ -13,16 +13,14 @@
     tools:showIn="@layout/app_bar_home">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
         <ImageButton
             android:id="@+id/ib_food"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_food"
-            android:layout_centerHorizontal="true"
             android:onClick="onClick"
             android:contentDescription="@string/food_description"/>
 
@@ -40,7 +38,12 @@
             android:id="@+id/ib_drink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_food"
+            android:layout_toRightOf="@+id/ib_food"
+            android:layout_toEndOf="@+id/ib_food"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:src="@drawable/ic_drink"
             android:onClick="onClick"
             android:contentDescription="@string/drink_description"/>
@@ -50,6 +53,12 @@
             android:labelFor="@id/ib_drink"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_food"
+            android:layout_toEndOf="@+id/tv_food"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
             android:layout_below="@+id/ib_drink"
             android:gravity="center"
             android:text="@string/drink_title"/>
@@ -58,7 +67,8 @@
             android:id="@+id/ib_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_drink"
+            android:layout_toRightOf="@+id/ib_drink"
+            android:layout_toEndOf="@+id/ib_drink"
             android:src="@drawable/ic_place"
             android:onClick="onClick"
             android:contentDescription="@string/place_description"/>
@@ -69,9 +79,8 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ib_place"
+            android:layout_toRightOf="@+id/tv_drink"
             android:gravity="center"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="15dp"
             android:text="@string/place_title"/>
     </RelativeLayout>
 

@@ -1,4 +1,4 @@
-package co.edu.udea.compumovil.proyectogr8.foodea.Places;
+package co.edu.udea.compumovil.proyectogr8.foodea.Maps;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -6,8 +6,6 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.view.ContextThemeWrapper;
-import android.util.Log;
 
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 

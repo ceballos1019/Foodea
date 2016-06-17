@@ -21,12 +21,11 @@ import co.edu.udea.compumovil.proyectogr8.foodea.Foods.FoodActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.User;
-import co.edu.udea.compumovil.proyectogr8.foodea.Places.AllPlacesActivity;
-import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.Maps.AllPlacesActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.Users.MainActivity;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private DBAdapter dbHandler;
     private boolean isEmpty;
@@ -53,18 +52,7 @@ public class HomeActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
         }
 
-        /*Intent i = new Intent(this, RegistrationService.class);
-        startService(i);
-        if(savedInstanceState!=null) {
-            String message = savedInstanceState.getString("msg");
-            Log.d("MENSAJE",message);
-            if (message != null) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            }
-        }else {
-            Log.d("MENSAJE","No llego el mensaje");
-        }
-*/
+
         dbHandler = new DBAdapter(getApplicationContext());
         dbHandler.openConnection();
         //Check if the database has information or if it need to be initialized
@@ -72,14 +60,6 @@ public class HomeActivity extends AppCompatActivity
         if(isEmpty){
             new InitializeDBTask().execute();
         }else{
-            Log.d("TESTING","hay datos");
-            /*for(Product p:dbHandler.getAllProducts()){
-                Log.d("TESTING PRODUCTS",p.getName());
-            }*/
-            for(Place pl : dbHandler.getAllPlaces()){
-                Log.d("TESTING PLACES", pl.getName());
-            }
-
             dbHandler.closeConnection();
         }
 
@@ -157,7 +137,6 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-
     //Deslogearse de la aplicacion
     private void backToLogin() {
         DBAdapter dbAdapter = new DBAdapter(getApplicationContext());
@@ -166,7 +145,6 @@ public class HomeActivity extends AppCompatActivity
         dbAdapter.closeConnection();
         finish();
     }
-
 
     public void onClick(View v) {
         int id = v.getId();
@@ -184,9 +162,6 @@ public class HomeActivity extends AppCompatActivity
                 intent = new Intent(this, AllPlacesActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.ib_settings:
-                intent = new Intent(this,PlaceActivity.class);
-                startActivity(intent);
             default:
                 break;
 
@@ -220,8 +195,6 @@ public class HomeActivity extends AppCompatActivity
 
     //Methods for initializing the database
     public void initializeProductsDB(){
-        Log.d("onInitializing","INITIALIZING DATABSE...");
-
         dbHandler.insertProduct(new Product("Menu Completo","Comida","Almuerzo"));
         dbHandler.insertProduct(new Product("Seco","Comida","Almuerzo"));
         dbHandler.insertProduct(new Product("Torta de Carne","Comida","Panaderia"));
@@ -377,8 +350,6 @@ public class HomeActivity extends AppCompatActivity
         dbHandler.insertPlace(new Place("Restaurante Cafeteria Facultad de Artes",6.267921,-75.569416,"Facultad de Artes"));
         dbHandler.insertPlace(new Place("Sazón y Parrilla",6.268186,-75.568391,"Debajo de la libreria"));
         dbHandler.insertPlace(new Place("Burbuja",6.268185,-75.567491,""));
-        Log.d("TESTING","PLACES READY");
-
     }
 
     public void initializeProductxPlacesDB(){

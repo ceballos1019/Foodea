@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
-import co.edu.udea.compumovil.proyectogr8.foodea.Places.SpecificPlacesActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.Maps.SpecificPlacesActivity;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
 
 public class DrinkActivity extends AppCompatActivity implements DrinkListFragment.OnDrinkCategorySelectedListener, DrinkDetailsFragment.onDrinkSelectedListener {

@@ -1,4 +1,4 @@
-package co.edu.udea.compumovil.proyectogr8.foodea;
+package co.edu.udea.compumovil.proyectogr8.foodea.Adapters;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
-import co.edu.udea.compumovil.proyectogr8.foodea.Drinks.DrinkListFragment;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Place;
 import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceActivity;
+import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceCategoriesFragment;
 import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceDetailsFragment;
 import co.edu.udea.compumovil.proyectogr8.foodea.Places.PlaceProductsFragment;
 

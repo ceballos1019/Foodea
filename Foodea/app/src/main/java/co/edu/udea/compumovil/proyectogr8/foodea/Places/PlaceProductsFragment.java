@@ -13,23 +13,18 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
-import co.edu.udea.compumovil.proyectogr8.foodea.CustomListAdapter;
+import co.edu.udea.compumovil.proyectogr8.foodea.Adapters.CustomListAdapter;
 import co.edu.udea.compumovil.proyectogr8.foodea.Database.DBAdapter;
 import co.edu.udea.compumovil.proyectogr8.foodea.Model.Product;
 import co.edu.udea.compumovil.proyectogr8.foodea.R;
